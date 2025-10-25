@@ -1,0 +1,123 @@
+cmake_minimum_required(VERSION 3.14)
+project(GSEA VERSION 1.0.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    add_compile_options(-Wall -Wextra -Wpedantic -O2)
+elseif(MSVC)
+    add_compile_options(/W4 /O2)
+endif()
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/src)
+
+
+file(GLOB CLI_SOURCES "src/cli/*.cpp")
+add_library(cli_lib ${CLI_SOURCES})
+
+
+file(GLOB COMPRESSION_SOURCES "src/compression/*.cpp")
+add_library(compression_lib ${COMPRESSION_SOURCES})
+
+file(GLOB ENCRYPTION_SOURCES "src/encryption/*.cpp")
+add_library(encryption_lib ${ENCRYPTION_SOURCES})
+
+file(GLOB FILESYSTEM_SOURCES "src/filesystem/*.cpp")
+add_library(filesystem_lib ${FILESYSTEM_SOURCES})
+
+file(GLOB CONCURRENCY_SOURCES "src/concurrency/*.cpp")
+add_library(concurrency_lib ${CONCURRENCY_SOURCES})
+
+file(GLOB UTILS_SOURCES "src/utils/*.cpp")
+add_library(utils_lib ${UTILS_SOURCES})
+
+add_executable(gsea src/main.cpp)
+
+target_link_libraries(gsea
+    cli_lib
+    compression_lib
+    encryption_lib
+    filesystem_lib
+    concurrency_lib
+    utils_lib
+)
+
+if(UNIX)
+    target_link_libraries(gsea pthread)
+endif()
+
+option(BUILD_TESTS "Build tests" ON)
+
+if(BUILD_TESTS)
+    include(FetchContent)
+    FetchContent_Declare(
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG release-1.12.1
+    )
+    
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    
+    FetchContent_MakeAvailable(googletest)
+    
+    enable_testing()
+    
+    file(GLOB TEST_SOURCES "tests/*.cpp")
+    
+    add_executable(gsea_tests ${TEST_SOURCES})
+    
+    target_link_libraries(gsea_tests
+        gtest_main
+        gtest
+        gmock
+        cli_lib
+        compression_lib
+        encryption_lib
+        filesystem_lib
+        concurrency_lib
+        utils_lib
+    )
+    
+    if(UNIX)
+        target_link_libraries(gsea_tests pthread)
+    endif()
+    
+    include(GoogleTest)
+    gtest_discover_tests(gsea_tests)
+    
+    add_custom_target(run_tests
+        COMMAND gsea_tests
+        DEPENDS gsea_tests
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running tests..."
+    )
+endif()
+
+install(TARGETS gsea DESTINATION bin)
+install(DIRECTORY include/ DESTINATION include)
+
+message(STATUS "")
+message(STATUS "GSEA - Configuration Summary")
+message(STATUS "============================")
+message(STATUS "CMake version    : ${CMAKE_VERSION}")
+message(STATUS "C++ compiler     : ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "C++ standard     : ${CMAKE_CXX_STANDARD}")
+message(STATUS "Build type       : ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build tests      : ${BUILD_TESTS}")
+message(STATUS "Install prefix   : ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "")
+message(STATUS "Targets:")
+message(STATUS "  - gsea         : Main executable")
+if(BUILD_TESTS)
+message(STATUS "  - gsea_tests   : Test executable")
+message(STATUS "  - run_tests    : Run all tests")
+endif()
+message(STATUS "============================")
+message(STATUS "")
