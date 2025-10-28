@@ -1,0 +1,4 @@
+- Captain the nightly backup job.
+- Verify archives include nested subdirectories.
+- Compare Huffman and LZW ratios after the refactor.
+- Share results with the documentation team.

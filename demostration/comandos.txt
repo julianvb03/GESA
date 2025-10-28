@@ -1,0 +1,21 @@
+Preparacion (desde la raiz del repositorio):
+  cmake -S . -B build
+  cmake --build build
+  cmake --install build --prefix "$(pwd)"
+
+Uso (ejecutar dentro de la carpeta demostration):
+  cd demostration
+  ./gsea help
+
+Compresion de un archivo con Huffman y verificacion:
+  ./gsea compress --algo huffman --input inputs/single/story.txt --output outputs/story.ghuf
+  ./gsea decompress --algo huffman --input outputs/story.ghuf --output outputs/story_restaurado.txt
+
+Compresion de un directorio completo con LZW y verificacion:
+  ./gsea compress --algo lzw --input inputs/directory --output outputs/coleccion.glza --threads 4
+  ./gsea decompress --algo lzw --input outputs/coleccion.glza --output outputs/coleccion_restaurada --threads 4
+
+Notas:
+  - Los comandos de compresion crean los archivos o directorios dentro de outputs/.
+  - Puedes limpiar outputs/ entre pruebas si necesitas empezar de cero.
+  - Ajusta el numero de hilos con --threads segun tu maquina.

@@ -1,0 +1,3 @@
+When the archive prototype finally compiled, the team gathered around a single terminal.
+The collection of notes inside this folder mirrors the mixed content we expect from real projects.
+Each line doubles as a sanity check for the compression pipeline and a reminder to celebrate small wins.
