@@ -18,6 +18,9 @@ endif()
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
+find_package(OpenSSL REQUIRED)
+find_package(OpenMP)
+
 
 file(GLOB CLI_SOURCES "src/cli/*.cpp")
 if(CLI_SOURCES)
@@ -34,12 +37,11 @@ else()
     add_library(compression_lib INTERFACE)
 endif()
 
-file(GLOB ENCRYPTION_SOURCES "src/encryption/*.cpp")
-if(ENCRYPTION_SOURCES)
-    add_library(encryption_lib STATIC ${ENCRYPTION_SOURCES})
-else()
-    add_library(encryption_lib INTERFACE)
-endif()
+# Encryption library (explicit sources to ensure correct linkage)
+set(ENCRYPTION_SOURCES
+    src/encryption/RSA.cpp
+)
+add_library(encryption_lib STATIC ${ENCRYPTION_SOURCES})
 
 file(GLOB FILESYSTEM_SOURCES "src/filesystem/*.cpp")
 if(FILESYSTEM_SOURCES)
@@ -60,6 +62,16 @@ if(UTILS_SOURCES)
     add_library(utils_lib STATIC ${UTILS_SOURCES})
 else()
     add_library(utils_lib INTERFACE)
+endif()
+
+# Link external dependencies
+if(TARGET utils_lib)
+    # OpenSSL for Base64 BIO usage in Utils
+    target_link_libraries(utils_lib PUBLIC OpenSSL::Crypto)
+    # OpenMP for parallel utils (createFreqMap)
+    if(OpenMP_CXX_FOUND)
+        target_link_libraries(utils_lib PUBLIC OpenMP::OpenMP_CXX)
+    endif()
 endif()
 
 add_executable(gsea src/main.cpp)
