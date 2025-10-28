@@ -1043,3 +1043,10 @@ dkms.conf
 *.uf2
 # Raspberry Pi Pico disassembler file
 *.dis
+
+# Doxygen
+docs/html/
+docs/latex/
+
+documentation_sample.hpp
+documentation_sample.cpp

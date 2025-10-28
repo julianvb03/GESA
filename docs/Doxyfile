@@ -1,0 +1,49 @@
+# Doxyfile simplificado para la documentación de GESA
+
+PROJECT_NAME           = "GESA"
+PROJECT_BRIEF          = "Generador de estructuras y servicios avanzados"
+OUTPUT_LANGUAGE        = Spanish
+
+OUTPUT_DIRECTORY       = .
+HTML_OUTPUT            = html
+LATEX_OUTPUT           = latex
+
+INPUT                  = ../include ../src ../README.md
+FILE_PATTERNS          = *.h *.hpp *.cpp *.md
+RECURSIVE              = YES
+EXCLUDE_PATTERNS       = ../tests/*
+USE_MDFILE_AS_MAINPAGE = ../README.md
+FULL_PATH_NAMES        = NO
+STRIP_FROM_PATH        = ..
+
+GENERATE_HTML          = YES
+GENERATE_LATEX         = YES
+GENERATE_MAN           = NO
+GENERATE_XML           = NO
+GENERATE_DOCSET        = NO
+GENERATE_AUTOGEN_DEF   = NO
+GENERATE_TREEVIEW      = YES
+
+EXTRACT_ALL            = NO
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_NO_PARAMDOC       = NO
+
+INPUT_ENCODING         = UTF-8
+QUIET                  = NO
+
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
+HAVE_DOT               = YES
+DOT_IMAGE_FORMAT       = svg
+DOT_TRANSPARENT        = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+CLASS_DIAGRAMS         = YES
+DOT_MULTI_TARGETS      = YES
