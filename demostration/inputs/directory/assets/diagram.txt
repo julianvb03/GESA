@@ -1,0 +1,5 @@
+[compression]
+   |
+[archive] --> packaged.glza
+   |
+[decompression]

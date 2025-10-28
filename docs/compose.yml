@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  doxygen:
+    build:
+      context: ..
+      dockerfile: docs/Dockerfile.doxygen
+    volumes:
+      - ..:/project
+    working_dir: /project/docs
+    command: Doxyfile
+    
+  docs-server:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+    depends_on:
+      - doxygen

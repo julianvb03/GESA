@@ -20,23 +20,47 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 
 
 file(GLOB CLI_SOURCES "src/cli/*.cpp")
-add_library(cli_lib ${CLI_SOURCES})
+if(CLI_SOURCES)
+    add_library(cli_lib STATIC ${CLI_SOURCES})
+else()
+    add_library(cli_lib INTERFACE)
+endif()
 
 
-file(GLOB COMPRESSION_SOURCES "src/compression/*.cpp")
-add_library(compression_lib ${COMPRESSION_SOURCES})
+file(GLOB_RECURSE COMPRESSION_SOURCES "src/compression/*.cpp")
+if(COMPRESSION_SOURCES)
+    add_library(compression_lib STATIC ${COMPRESSION_SOURCES})
+else()
+    add_library(compression_lib INTERFACE)
+endif()
 
 file(GLOB ENCRYPTION_SOURCES "src/encryption/*.cpp")
-add_library(encryption_lib ${ENCRYPTION_SOURCES})
+if(ENCRYPTION_SOURCES)
+    add_library(encryption_lib STATIC ${ENCRYPTION_SOURCES})
+else()
+    add_library(encryption_lib INTERFACE)
+endif()
 
 file(GLOB FILESYSTEM_SOURCES "src/filesystem/*.cpp")
-add_library(filesystem_lib ${FILESYSTEM_SOURCES})
+if(FILESYSTEM_SOURCES)
+    add_library(filesystem_lib STATIC ${FILESYSTEM_SOURCES})
+else()
+    add_library(filesystem_lib INTERFACE)
+endif()
 
 file(GLOB CONCURRENCY_SOURCES "src/concurrency/*.cpp")
-add_library(concurrency_lib ${CONCURRENCY_SOURCES})
+if(CONCURRENCY_SOURCES)
+    add_library(concurrency_lib STATIC ${CONCURRENCY_SOURCES})
+else()
+    add_library(concurrency_lib INTERFACE)
+endif()
 
 file(GLOB UTILS_SOURCES "src/utils/*.cpp")
-add_library(utils_lib ${UTILS_SOURCES})
+if(UTILS_SOURCES)
+    add_library(utils_lib STATIC ${UTILS_SOURCES})
+else()
+    add_library(utils_lib INTERFACE)
+endif()
 
 add_executable(gsea src/main.cpp)
 
@@ -100,7 +124,7 @@ if(BUILD_TESTS)
     )
 endif()
 
-install(TARGETS gsea DESTINATION bin)
+install(TARGETS gsea DESTINATION demostration)
 install(DIRECTORY include/ DESTINATION include)
 
 message(STATUS "")
