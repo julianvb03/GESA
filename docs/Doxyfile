@@ -1,7 +1,7 @@
 # Doxyfile simplificado para la documentación de GESA
 
 PROJECT_NAME           = "GESA"
-PROJECT_BRIEF          = "Generador de estructuras y servicios avanzados"
+PROJECT_BRIEF          = "Proyecto para compresion y encriptamiento de archivos y carpetas"
 OUTPUT_LANGUAGE        = Spanish
 
 OUTPUT_DIRECTORY       = .

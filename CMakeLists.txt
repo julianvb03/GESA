@@ -27,7 +27,7 @@ else()
 endif()
 
 
-file(GLOB COMPRESSION_SOURCES "src/compression/*.cpp")
+file(GLOB_RECURSE COMPRESSION_SOURCES "src/compression/*.cpp")
 if(COMPRESSION_SOURCES)
     add_library(compression_lib STATIC ${COMPRESSION_SOURCES})
 else()
@@ -124,7 +124,7 @@ if(BUILD_TESTS)
     )
 endif()
 
-install(TARGETS gsea DESTINATION bin)
+install(TARGETS gsea DESTINATION demostration)
 install(DIRECTORY include/ DESTINATION include)
 
 message(STATUS "")
