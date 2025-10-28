@@ -1,7 +1,7 @@
 Preparacion (desde la raiz del repositorio):
   cmake -S . -B build
   cmake --build build
-  cmake --install build --prefix "$(pwd)"
+  cmake --install build --prefix ./demostration
 
 Uso (ejecutar dentro de la carpeta demostration):
   cd demostration

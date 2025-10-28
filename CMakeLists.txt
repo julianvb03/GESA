@@ -124,8 +124,8 @@ if(BUILD_TESTS)
     )
 endif()
 
-install(TARGETS gsea DESTINATION demostration)
-install(DIRECTORY include/ DESTINATION include)
+#install(TARGETS gsea DESTINATION demostration)
+#install(DIRECTORY include/ DESTINATION include)
 
 message(STATUS "")
 message(STATUS "GSEA - Configuration Summary")
